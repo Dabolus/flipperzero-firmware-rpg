@@ -56,7 +56,7 @@ static void render_callback(Canvas* canvas, void* ctx) {
     uint32_t xp_to_levelup = dolphin_state_xp_to_levelup(stats->icounter);
     uint32_t xp_for_current_level =
         xp_to_levelup + dolphin_state_xp_above_last_levelup(stats->icounter);
-    if(stats->level == 30) {
+    if(stats->level == LEVEL_MAX) {
         xp_progress = 0;
     } else {
         xp_progress = xp_to_levelup * 64 / xp_for_current_level;
@@ -70,7 +70,7 @@ static void render_callback(Canvas* canvas, void* ctx) {
     canvas_draw_dot(canvas, 126, 1);
 
     // portrait
-    furi_assert((stats->level > 0) && (stats->level <= 30));
+    furi_assert((stats->level > 0) && (stats->level <= LEVEL_MAX));
     uint16_t tmpLvl = 0;
     if(stats->level > 10) tmpLvl = 1;
     if(stats->level > 20) tmpLvl = 2;
