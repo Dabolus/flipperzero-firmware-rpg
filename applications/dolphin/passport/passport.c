@@ -37,7 +37,8 @@ static void input_callback(InputEvent* input, void* ctx) {
 static void render_callback(Canvas* canvas, void* ctx) {
     DolphinStats* stats = ctx;
 
-    char level_str[20];
+    char level_str[12];
+    char xp_str[15];
     char mood_str[32];
     uint8_t mood = 0;
 
@@ -54,8 +55,8 @@ static void render_callback(Canvas* canvas, void* ctx) {
 
     uint32_t xp_progress = 0;
     uint32_t xp_to_levelup = dolphin_state_xp_to_levelup(stats->icounter);
-    uint32_t xp_for_current_level =
-        xp_to_levelup + dolphin_state_xp_above_last_levelup(stats->icounter);
+    uint32_t xp_above_last_levelup = dolphin_state_xp_above_last_levelup(stats->icounter);
+    uint32_t xp_for_current_level = xp_to_levelup + xp_above_last_levelup;
     if(stats->level == LEVEL_MAX) {
         xp_progress = 0;
     } else {
@@ -75,20 +76,22 @@ static void render_callback(Canvas* canvas, void* ctx) {
     if(stats->level >= 30) tmpLvl = 1;
     if(stats->level >= 55) tmpLvl = 2;
     canvas_draw_icon(canvas, 9, 5, portraits[mood][tmpLvl]);
-    canvas_draw_line(canvas, 58, 16, 123, 16);
-    canvas_draw_line(canvas, 58, 30, 123, 30);
-    canvas_draw_line(canvas, 58, 44, 123, 44);
+    canvas_draw_line(canvas, 58, 14, 123, 14);
+    canvas_draw_line(canvas, 58, 26, 123, 26);
+    canvas_draw_line(canvas, 58, 38, 123, 38);
 
     const char* my_name = furi_hal_version_get_name_ptr();
-    snprintf(level_str, 20, "Level: %hu", stats->level);
+    snprintf(level_str, 12, "Level: %hu", stats->level);
+    snprintf(xp_str, 15, "XP: %lu/%lu", xp_above_last_levelup, xp_for_current_level);
     canvas_draw_str(canvas, 58, 12, my_name ? my_name : "Unknown");
-    canvas_draw_str(canvas, 58, 26, mood_str);
-    canvas_draw_str(canvas, 58, 40, level_str);
+    canvas_draw_str(canvas, 58, 24, mood_str);
+    canvas_draw_str(canvas, 58, 36, level_str);
+    canvas_draw_str(canvas, 58, 48, xp_str);
 
     canvas_set_color(canvas, ColorWhite);
-    canvas_draw_box(canvas, 123 - xp_progress, 47, xp_progress + 1, 6);
+    canvas_draw_box(canvas, 123 - xp_progress, 50, xp_progress + 1, 3);
     canvas_set_color(canvas, ColorBlack);
-    canvas_draw_line(canvas, 123, 47, 123, 52);
+    canvas_draw_line(canvas, 123, 50, 123, 52);
 }
 
 int32_t passport_app(void* p) {

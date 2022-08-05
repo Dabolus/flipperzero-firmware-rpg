@@ -14,6 +14,7 @@ Changes implemented in this firmware:
   - Level 1 animations -> Levels 1-29
   - Level 2 animations -> Levels 30-54
   - Level 3 animations -> Levels 55-255
+- Flipper passport now also shows the current XP and the total XP required for the next level also in numeric format
 
 My next goal is to add an achievement system, but it will probably require some time.
 
