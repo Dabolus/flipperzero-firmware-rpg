@@ -37,6 +37,7 @@ F:a60517d76095c3e1724b725dffb78c27:5844:apps/GAME_Tetris.fap
 F:03ed16659ac270401488cad3f1931f70:5796:apps/GAME_TicTacToe.fap
 F:90aaac24ff9591e0c7823b3b1a4c0aff:10216:apps/GAME_VideoPoker.fap
 D:badusb/layouts
+F:94e6080ea3efdac0a3a77d73f0ab59a5:29:badusb/.badusb.settings
 F:0e41ba26498b7511d7c9e6e6b5e3b149:1592:badusb/demo_macos.txt
 F:e538ad2ce5a06ec45e1b5b24824901b1:1552:badusb/demo_windows.txt
 F:1139810f61ec7f8c8fe0398d92578b31:256:badusb/layouts/da-DA.kl
@@ -53,6 +54,7 @@ F:0d971f10fc8f3d373604f3b19ebf9251:256:badusb/layouts/hu-HU.kl
 F:66564950e0bbfb4cc1d847ce3ab28b24:256:badusb/layouts/it-IT.kl
 F:fe381203fa06318e0dc05c8c2efdc609:256:badusb/layouts/nl-NL.kl
 F:d939c563da44f227786350b6e467c155:256:badusb/layouts/pt-PT.kl
+F:6461e0e3897f295d59efecd70ca3a294:256:badusb/layouts/sk-SK.kl
 F:b62d559209e0d450b4d77f76e29ec1be:256:badusb/layouts/sv-SE.kl
 D:dolphin/L1_Boxing_128x64
 D:dolphin/L1_Cry_128x64
