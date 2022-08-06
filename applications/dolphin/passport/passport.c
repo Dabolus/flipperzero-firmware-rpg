@@ -88,11 +88,19 @@ static void render_callback(Canvas* canvas, void* ctx) {
     canvas_draw_line(canvas, 58, 26, 123, 26);
     canvas_draw_line(canvas, 58, 46, 123, 46);
 
-    const char* my_name = furi_hal_version_get_name_ptr();
+    const char* my_name_ptr = furi_hal_version_get_name_ptr();
+    const char* my_name = my_name_ptr ? my_name_ptr : "Unknown";
+    FuriHalVersionGender my_gender = furi_hal_version_get_gender();
     snprintf(level_str, 12, "Level: %hu", stats->level);
     snprintf(xp_str, 12, "%lu/%lu", xp_above_last_levelup, xp_for_current_level);
     canvas_set_font(canvas, FontSecondary);
-    canvas_draw_str(canvas, 58, 12, my_name ? my_name : "Unknown");
+    canvas_draw_str(canvas, 58, 12, my_name);
+    if(my_gender != FuriHalVersionGenderUnknown) {
+        const Icon* gender_icon = my_gender == FuriHalVersionGenderMale ?
+                                      &I_passport_gendermale_5x9 :
+                                      &I_passport_genderfemale_5x9;
+        canvas_draw_icon(canvas, 119, 4, gender_icon);
+    }
     canvas_draw_str(canvas, 58, 24, mood_str);
     canvas_set_color(canvas, ColorBlack);
     canvas_draw_str(canvas, 58, 36, level_str);

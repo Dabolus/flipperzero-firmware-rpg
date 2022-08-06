@@ -50,6 +50,13 @@ typedef enum {
     FuriHalVersionDisplayMgg = 0x02,
 } FuriHalVersionDisplay;
 
+/** Device Gender */
+typedef enum {
+    FuriHalVersionGenderUnknown = 0x00,
+    FuriHalVersionGenderMale = 0x01,
+    FuriHalVersionGenderFemale = 0x02,
+} FuriHalVersionGender;
+
 /** Init flipper version
  */
 void furi_hal_version_init();
@@ -131,6 +138,12 @@ uint32_t furi_hal_version_get_hw_timestamp();
  * @return     Hardware Name C-string
  */
 const char* furi_hal_version_get_name_ptr();
+
+/** Get device gender (computed based on Hardware Name)
+ *
+ * @return     Device gender enum
+ */
+FuriHalVersionGender furi_hal_version_get_gender();
 
 /** Get pointer to target device name
  *
