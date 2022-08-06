@@ -8,23 +8,41 @@
 #include "dolphin/dolphin.h"
 #include "math.h"
 
-#define MOODS_TOTAL 3
-#define BUTTHURT_MAX 3
+#define MOODS_PORTRAITS_TOTAL 3
 
-static const Icon* const portrait_happy[BUTTHURT_MAX] = {
+static const Icon* const portrait_happy[MOODS_PORTRAITS_TOTAL] = {
     &I_passport_happy1_46x49,
     &I_passport_happy2_46x49,
     &I_passport_happy3_46x49};
-static const Icon* const portrait_ok[BUTTHURT_MAX] = {
+static const Icon* const portrait_ok[MOODS_PORTRAITS_TOTAL] = {
     &I_passport_okay1_46x49,
     &I_passport_okay2_46x49,
     &I_passport_okay3_46x49};
-static const Icon* const portrait_bad[BUTTHURT_MAX] = {
+static const Icon* const portrait_bad[MOODS_PORTRAITS_TOTAL] = {
     &I_passport_bad1_46x49,
     &I_passport_bad2_46x49,
     &I_passport_bad3_46x49};
 
-static const Icon* const* portraits[MOODS_TOTAL] = {portrait_happy, portrait_ok, portrait_bad};
+static const Icon* const* portraits[MOODS_PORTRAITS_TOTAL] = {
+    portrait_happy,
+    portrait_ok,
+    portrait_bad};
+
+static const char* const moods[BUTTHURT_MAX] = {
+    "Joyful",
+    "Happy",
+    "Satisfied",
+    "Good",
+    "Relaxed",
+    "Okay",
+    "Tired",
+    "Bored",
+    "Sad",
+    "Disappointed",
+    "Annoyed",
+    "Upset",
+    "Angry",
+    "Furious"};
 
 static void input_callback(InputEvent* input, void* ctx) {
     FuriSemaphore* semaphore = ctx;
@@ -38,20 +56,10 @@ static void render_callback(Canvas* canvas, void* ctx) {
     DolphinStats* stats = ctx;
 
     char level_str[12];
-    char xp_str[15];
-    char mood_str[32];
-    uint8_t mood = 0;
-
-    if(stats->butthurt <= 4) {
-        mood = 0;
-        snprintf(mood_str, 20, "Mood: Happy");
-    } else if(stats->butthurt <= 9) {
-        mood = 1;
-        snprintf(mood_str, 20, "Mood: Ok");
-    } else {
-        mood = 2;
-        snprintf(mood_str, 20, "Mood: Angry");
-    }
+    char xp_str[12];
+    char mood_str[20];
+    uint8_t mood = stats->butthurt / 5;
+    snprintf(mood_str, 20, "Mood: %s", moods[stats->butthurt]);
 
     uint32_t xp_progress = 0;
     uint32_t xp_to_levelup = dolphin_state_xp_to_levelup(stats->icounter);
@@ -78,15 +86,19 @@ static void render_callback(Canvas* canvas, void* ctx) {
     canvas_draw_icon(canvas, 9, 5, portraits[mood][tmpLvl]);
     canvas_draw_line(canvas, 58, 14, 123, 14);
     canvas_draw_line(canvas, 58, 26, 123, 26);
-    canvas_draw_line(canvas, 58, 38, 123, 38);
+    canvas_draw_line(canvas, 58, 46, 123, 46);
 
     const char* my_name = furi_hal_version_get_name_ptr();
     snprintf(level_str, 12, "Level: %hu", stats->level);
-    snprintf(xp_str, 15, "XP: %lu/%lu", xp_above_last_levelup, xp_for_current_level);
+    snprintf(xp_str, 12, "%lu/%lu", xp_above_last_levelup, xp_for_current_level);
+    canvas_set_font(canvas, FontSecondary);
     canvas_draw_str(canvas, 58, 12, my_name ? my_name : "Unknown");
     canvas_draw_str(canvas, 58, 24, mood_str);
+    canvas_set_color(canvas, ColorBlack);
     canvas_draw_str(canvas, 58, 36, level_str);
-    canvas_draw_str(canvas, 58, 48, xp_str);
+    canvas_set_font(canvas, FontBatteryPercent);
+    canvas_draw_str(canvas, 58, 44, xp_str);
+    canvas_set_font(canvas, FontSecondary);
 
     canvas_set_color(canvas, ColorWhite);
     canvas_draw_box(canvas, 123 - xp_progress, 50, xp_progress + 1, 3);
