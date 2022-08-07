@@ -40,3 +40,19 @@ Max butthurt: 0
 Min level: 0
 Max level: 0
 Weight: 0
+
+# Animation 6
+Name: L1_Evolution_128x64
+Min butthurt: 0
+Max butthurt: 0
+Min level: 1
+Max level: 29
+Weight: 0
+
+# Animation 7
+Name: L2_Evolution_128x64
+Min butthurt: 0
+Max butthurt: 0
+Min level: 30
+Max level: 255
+Weight: 0
