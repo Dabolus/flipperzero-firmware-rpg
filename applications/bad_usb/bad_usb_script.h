@@ -22,10 +22,12 @@ typedef enum {
 
 typedef struct {
     BadUsbWorkerState state;
+    bool run_from_p;
     uint16_t line_cur;
     uint16_t line_nb;
     uint32_t delay_remain;
     uint16_t error_line;
+    char error[64];
 } BadUsbState;
 
 BadUsbScript* bad_usb_script_open(string_t file_path);
@@ -41,6 +43,8 @@ void bad_usb_script_stop(BadUsbScript* bad_usb);
 void bad_usb_script_toggle(BadUsbScript* bad_usb);
 
 BadUsbState* bad_usb_script_get_state(BadUsbScript* bad_usb);
+
+void bad_usb_script_set_run_state(BadUsbState* st, bool run);
 
 #ifdef __cplusplus
 }
