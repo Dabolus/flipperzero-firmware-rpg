@@ -12,15 +12,50 @@ Name: L1_Digi_rain_128x64
 Min butthurt: 0
 Max butthurt: 10
 Min level: 1
-Max level: 30
+Max level: 29
 Weight: 3
+
+Name: L1_Digi_rain_128x64
+Min butthurt: 0
+Max butthurt: 10
+Min level: 1
+Max level: 29
+Weight: 4
+
+Name: L1_MjkDolphin_128x64
+Min butthurt: 0
+Max butthurt: 10
+Min level: 1
+Max level: 29
+Weight: 3
+
+Name: L1_Rukamon_128x64
+Min butthurt: 0
+Max butthurt: 10
+Min level: 1
+Max level: 29
+Weight: 3
+
+Name: L2_Rukamon_PC_128x64
+Min butthurt: 0
+Max butthurt: 10
+Min level: 30
+Max level: 54
+Weight: 3
+
+Name: L1_Agumon_128x64
+Min butthurt: 0
+Max butthurt: 10
+Min level: 1
+Max level: 29
+Weight: 5
 
 Name: L1_Laptop_128x51
 Min butthurt: 0
 Max butthurt: 7
 Min level: 1
 Max level: 29
-Weight: 3
+Weight: 4
 
 Name: L1_Sleep_128x64
 Min butthurt: 0
@@ -34,7 +69,7 @@ Min butthurt: 0
 Max butthurt: 8
 Min level: 1
 Max level: 29
-Weight: 3
+Weight: 4
 
 Name: L1_Furippa1_128x64
 Min butthurt: 0
@@ -69,7 +104,7 @@ Min butthurt: 0
 Max butthurt: 8
 Min level: 30
 Max level: 54
-Weight: 3
+Weight: 4
 
 Name: L1_Cry_128x64
 Min butthurt: 8
@@ -83,7 +118,7 @@ Min butthurt: 10
 Max butthurt: 13
 Min level: 1
 Max level: 255
-Weight: 3
+Weight: 1
 
 Name: L1_Mad_fist_128x64
 Min butthurt: 9
@@ -97,21 +132,21 @@ Min butthurt: 0
 Max butthurt: 8
 Min level: 55
 Max level: 255
-Weight: 3
+Weight: 4
 
 Name: L3_Lab_research_128x54
 Min butthurt: 0
 Max butthurt: 10
 Min level: 55
 Max level: 255
-Weight: 3
+Weight: 4
 
 Name: L2_Soldering_128x64
 Min butthurt: 0
 Max butthurt: 10
 Min level: 30
 Max level: 54
-Weight: 3
+Weight: 5
 
 Name: L1_Leaving_sad_128x64
 Min butthurt: 14
