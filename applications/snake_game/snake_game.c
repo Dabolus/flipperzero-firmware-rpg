@@ -114,13 +114,13 @@ static void snake_game_render_callback(Canvas* const canvas, void* ctx) {
         canvas_set_font(canvas, FontPrimary);
         canvas_draw_str(canvas, 37, 31, "Game Over");
 
-        if(snake_state->len - 7>=10) {
+        if(snake_state->len - 7 >= 10) {
             DOLPHIN_DEED(DolphinDeedU2fAuthorized);
         }
-        if(snake_state->len - 7>=50) {
+        if(snake_state->len - 7 >= 50) {
             DOLPHIN_DEED(DolphinDeedU2fAuthorized);
         }
-        if(snake_state->len - 7>=100) {
+        if(snake_state->len - 7 >= 100) {
             DOLPHIN_DEED(DolphinDeedU2fAuthorized);
         }
 
@@ -322,6 +322,7 @@ int32_t snake_game_app(void* p) {
     ValueMutex state_mutex;
     if(!init_mutex(&state_mutex, snake_state, sizeof(SnakeState))) {
         FURI_LOG_E("SnakeGame", "cannot create mutex\r\n");
+        furi_message_queue_free(event_queue);
         free(snake_state);
         return 255;
     }

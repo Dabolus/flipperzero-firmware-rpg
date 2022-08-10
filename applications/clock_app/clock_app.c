@@ -279,7 +279,7 @@ static void clock_tick(void* ctx) {
         }
         if(songSelect == 1) {
             if(timerSecs == 80) {
-				DOLPHIN_DEED(DolphinDeedU2fAuthorized);
+                DOLPHIN_DEED(DolphinDeedU2fAuthorized);
                 NotificationApp* notification = furi_record_open("notification");
                 notification_message(notification, &clock_alert_pr1);
                 furi_record_close("notification");
@@ -296,7 +296,7 @@ static void clock_tick(void* ctx) {
             }
         } else if(songSelect == 2) {
             if(timerSecs == 80) {
-				DOLPHIN_DEED(DolphinDeedU2fAuthorized);
+                DOLPHIN_DEED(DolphinDeedU2fAuthorized);
                 NotificationApp* notification = furi_record_open("notification");
                 notification_message(notification, &clock_alert_mario1);
                 furi_record_close("notification");
@@ -334,6 +334,7 @@ int32_t clock_app(void* p) {
     ValueMutex state_mutex;
     if(!init_mutex(&state_mutex, plugin_state, sizeof(ClockState))) {
         FURI_LOG_E(TAG, "cannot create mutex\r\n");
+        furi_message_queue_free(event_queue);
         free(plugin_state);
         return 255;
     }

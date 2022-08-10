@@ -151,13 +151,13 @@ static void tetris_game_render_callback(Canvas* const canvas, void* ctx) {
         canvas_set_font(canvas, FontPrimary);
         canvas_draw_str(canvas, 4, 63, "Game Over");
 
-        if(tetris_state->numLines>=10) {
+        if(tetris_state->numLines >= 10) {
             DOLPHIN_DEED(DolphinDeedU2fAuthorized);
         }
-        if(tetris_state->numLines>=50) {
+        if(tetris_state->numLines >= 50) {
             DOLPHIN_DEED(DolphinDeedU2fAuthorized);
         }
-        if(tetris_state->numLines>=100) {
+        if(tetris_state->numLines >= 100) {
             DOLPHIN_DEED(DolphinDeedU2fAuthorized);
         }
 
@@ -365,6 +365,7 @@ int32_t tetris_game_app() {
     ValueMutex state_mutex;
     if(!init_mutex(&state_mutex, tetris_state, sizeof(TetrisState))) {
         FURI_LOG_E("TetrisGame", "cannot create mutex\r\n");
+        furi_message_queue_free(event_queue);
         free(tetris_state);
         return 255;
     }
