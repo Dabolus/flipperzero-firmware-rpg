@@ -32,6 +32,8 @@ static void subghz_rpc_command_callback(RpcAppSystemEvent event, void* context) 
     if(event == RpcAppEventSessionClose) {
         view_dispatcher_send_custom_event(
             subghz->view_dispatcher, SubGhzCustomEventSceneRpcSessionClose);
+        rpc_system_app_set_callback(subghz->rpc_ctx, NULL, NULL);
+        subghz->rpc_ctx = NULL;
     } else if(event == RpcAppEventAppExit) {
         view_dispatcher_send_custom_event(subghz->view_dispatcher, SubGhzCustomEventSceneExit);
     } else if(event == RpcAppEventLoadFile) {
@@ -168,7 +170,7 @@ SubGhz* subghz_alloc() {
 
     //init setting
     subghz->setting = subghz_setting_alloc();
-    subghz_setting_load(subghz->setting, EXT_PATH("subghz/assets/setting_user"));
+    subghz_setting_load(subghz->setting, EXT_PATH("subghz/assets/setting_user.txt"));
 
     //init Worker & Protocol & History & KeyBoard
     subghz->lock = SubGhzLockOff;

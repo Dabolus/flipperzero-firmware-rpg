@@ -22,6 +22,13 @@ Min level: 1
 Max level: 29
 Weight: 4
 
+Name: L1_Rickroll_128x64
+Min butthurt: 0
+Max butthurt: 10
+Min level: 1
+Max level: 29
+Weight: 5
+
 Name: L1_MjkDolphin_128x64
 Min butthurt: 0
 Max butthurt: 10

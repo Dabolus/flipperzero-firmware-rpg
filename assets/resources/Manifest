@@ -1,5 +1,5 @@
 V:0
-T:1660025141
+T:1660546056
 D:apps
 D:badusb
 D:dolphin
@@ -16,7 +16,7 @@ F:d41d8cd98f00b204e9800998ecf8427e:0:apps/faps_will_go_here.txt
 D:badusb/layouts
 F:94e6080ea3efdac0a3a77d73f0ab59a5:29:badusb/.badusb.settings
 F:0e41ba26498b7511d7c9e6e6b5e3b149:1592:badusb/demo_macos.txt
-F:e538ad2ce5a06ec45e1b5b24824901b1:1552:badusb/demo_windows.txt
+F:46a332993ca94b9aa692030ebaa19c70:1552:badusb/demo_windows.txt
 F:1139810f61ec7f8c8fe0398d92578b31:256:badusb/layouts/da-DA.kl
 F:13504463372b269bd102c68725921d90:256:badusb/layouts/de-CH.kl
 F:f392e25a23f50691b5a37e67845dec76:256:badusb/layouts/de-DE.kl
@@ -44,6 +44,7 @@ D:dolphin/L1_Mad_fist_128x64
 D:dolphin/L1_MjkDolphin_128x64
 D:dolphin/L1_Read_books_128x64
 D:dolphin/L1_Recording_128x51
+D:dolphin/L1_Rickroll_128x64
 D:dolphin/L1_Rukamon_128x64
 D:dolphin/L1_Sleep_128x64
 D:dolphin/L1_Waves_128x50
@@ -54,7 +55,7 @@ D:dolphin/L2_Soldering_128x64
 D:dolphin/L3_Furippa3_128x64
 D:dolphin/L3_Hijack_radio_128x64
 D:dolphin/L3_Lab_research_128x54
-F:636379a8bc327d3b978702e5ca734252:2174:dolphin/manifest.txt
+F:3f2022d0b5dfe63abf7d47be50953d3e:2270:dolphin/manifest.txt
 F:1c4c13b4cfe609e102bd630e32a5e929:564:dolphin/L1_Agumon_128x64/frame_0.bm
 F:3042b007eeb149f7729e6e00032b4c87:572:dolphin/L1_Agumon_128x64/frame_1.bm
 F:0f88d76bcaf5c3e79a78bd2fcb569192:568:dolphin/L1_Agumon_128x64/frame_10.bm
@@ -192,6 +193,11 @@ F:604a7cdac2491c9bc2e88b9e91c99dcc:626:dolphin/L1_Recording_128x51/frame_7.bm
 F:fc94649dc98244dd9a0ab7fe62721d3c:663:dolphin/L1_Recording_128x51/frame_8.bm
 F:b2475ab8ee26cbd9a403ee603520bd35:661:dolphin/L1_Recording_128x51/frame_9.bm
 F:a7c2b3b420706712149cc2426c68df4f:219:dolphin/L1_Recording_128x51/meta.txt
+F:04291b653483471831b171bf317bbd6e:409:dolphin/L1_Rickroll_128x64/frame_0.bm
+F:dfd1f714456c243e9e325dcb6b62a8c5:368:dolphin/L1_Rickroll_128x64/frame_1.bm
+F:3d9df3037d562504a5dec9f5dd824560:365:dolphin/L1_Rickroll_128x64/frame_2.bm
+F:04291b653483471831b171bf317bbd6e:409:dolphin/L1_Rickroll_128x64/frame_3.bm
+F:47d235d25b862d4029c89437343bd916:546:dolphin/L1_Rickroll_128x64/meta.txt
 F:47db2d8f05e95818df353dcdac04b4c0:108:dolphin/L1_Rukamon_128x64/frame_0.bm
 F:69abc588ac337770d0e6f3cb10151f92:234:dolphin/L1_Rukamon_128x64/frame_1.bm
 F:c6499f5612a621bf356e7abb9de3a4ae:361:dolphin/L1_Rukamon_128x64/frame_2.bm
@@ -311,9 +317,9 @@ F:f267f0654781049ca323b11bb4375519:581:dolphin/L3_Lab_research_128x54/frame_9.bm
 F:41106c0cbc5144f151b2b2d3daaa0527:727:dolphin/L3_Lab_research_128x54/meta.txt
 F:05e24c3e99c57e84b04a1451b7184d99:40:dolphin_restorer/.dolphin.state
 D:infrared/assets
-F:0620df2adc5e12f2a9d9c3ac29826ce3:60950:infrared/assets/ac.ir
-F:a0ac7ed0629a93b234d1790bf8bfb4c6:26781:infrared/assets/audio.ir
-F:45d36ceeac6be64eea3a0615a612ccbc:107466:infrared/assets/tv.ir
+F:cedef6d481ec8a10072168bfe82b9ec4:60995:infrared/assets/ac.ir
+F:1789fe307eda56f8370c671992aa1b97:25596:infrared/assets/audio.ir
+F:64c8728b5982614ef4b9e1d95e9b9210:124001:infrared/assets/tv.ir
 F:18acc61b64d25ca9d80c57821470a387:226:music_player/Contra.txt
 F:6e90d05ddbeb7b01da4a3c73e38c8233:252:music_player/Doom.txt
 F:6e45147681b5d612e79942763f80f031:413:music_player/Evangelion.txt
@@ -366,13 +372,13 @@ F:b877ff3fdb3c642d272d039e832f3bfb:204:subghz/Misc/Sextoy/Sextoy4.sub
 D:subghz/Vehicles/Tesla
 F:8b22aa0a2df0b22fc5791a3ecb4fa4fb:10991:subghz/Vehicles/Tesla/Tesla_charge_AM270.sub
 F:7ea28e3ce3c38b2d98ae99aecc45b7b9:11913:subghz/Vehicles/Tesla/Tesla_charge_AM650.sub
-F:b5380ddd37e6d35fd71a38c5690dd68b:1355:subghz/assets/README.md
+F:cccd43955a08a0f3c0e974fe6d09fb2e:1363:subghz/assets/README.md
 F:dda1ef895b8a25fde57c874feaaef997:650:subghz/assets/came_atomo
 F:ea81ac5f878e045581a2f5e2add46b0b:180:subghz/assets/extend_range.txt
 F:5e81e9809984ee74d426730c1afa4093:3232:subghz/assets/keeloq_mfcodes
 F:9214f9c10463b746a27e82ce0b96e040:465:subghz/assets/keeloq_mfcodes_user
 F:653bd8d349055a41e1152e557d4a52d3:202:subghz/assets/nice_flor_s
-F:f4480aec4e49714a9df9e5edd6bd0db7:1934:subghz/assets/setting_user
+F:2c73de390a4fb0ff1d31d66732a9b8db:2624:subghz/assets/setting_user.txt
 D:u2f/assets
 F:7e11e688e39034bbb9d88410044795e1:365:u2f/assets/cert.der
 F:f60b88c20ed479ed9684e249f7134618:264:u2f/assets/cert_key.u2f
