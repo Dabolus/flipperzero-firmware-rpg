@@ -1,3 +1,4 @@
+// THIS BUILD HAS OLD APP CODE, NO ISSUES
 #include <furi.h>
 #include <furi_hal.h>
 #include <gui/elements.h>
@@ -37,6 +38,9 @@ static void clock_render_callback(Canvas* const canvas, void* ctx) {
     canvas_clear(canvas);
     canvas_set_color(canvas, ColorBlack);
     ClockState* state = (ClockState*)acquire_mutex((ValueMutex*)ctx, 25);
+    if(state == NULL) {
+        return;
+    }
     char strings[3][20];
     int curMin = (timerSecs / 60);
     int curSec = timerSecs - (curMin * 60);
@@ -57,23 +61,22 @@ static void clock_render_callback(Canvas* const canvas, void* ctx) {
     snprintf(strings[2], 20, "%.2d:%.2d", curMin, curSec);
     release_mutex((ValueMutex*)ctx, state);
     canvas_set_font(canvas, FontBigNumbers);
-    if(timerStarted) canvas_draw_str_aligned(canvas, 64, 8, AlignCenter, AlignCenter, strings[1]);
-    if(!timerStarted)
+    if(timerStarted || timerSecs!=0) {
+        canvas_draw_str_aligned(canvas, 64, 8, AlignCenter, AlignCenter, strings[1]);
+        canvas_draw_str_aligned(canvas, 64, 32, AlignCenter, AlignTop, strings[2]);
+        canvas_set_font(canvas, FontSecondary);
+        canvas_draw_str_aligned(canvas, 64, 20, AlignCenter, AlignTop, strings[0]);
+    } else {
         canvas_draw_str_aligned(canvas, 64, 26, AlignCenter, AlignCenter, strings[1]);
-    canvas_set_font(canvas, FontSecondary);
-    if(timerStarted) canvas_draw_str_aligned(canvas, 64, 20, AlignCenter, AlignTop, strings[0]);
-    if(!timerStarted) canvas_draw_str_aligned(canvas, 64, 38, AlignCenter, AlignTop, strings[0]);
-    // elements_button_left(canvas, "Alarms");
-    // elements_button_right(canvas, "Settings");
-    // elements_button_center(canvas, "Reset");
-    canvas_set_font(canvas, FontBigNumbers);
-    if(timerStarted) canvas_draw_str_aligned(canvas, 64, 32, AlignCenter, AlignTop, strings[2]);
-    canvas_set_font(canvas, FontSecondary);
+        canvas_set_font(canvas, FontSecondary);
+        canvas_draw_str_aligned(canvas, 64, 38, AlignCenter, AlignTop, strings[0]);
+    }
     if(timerStarted) {
         elements_button_center(canvas, "Stop");
     } else {
         elements_button_center(canvas, "Start");
     }
+    if(timerSecs!=0) elements_button_left(canvas, "Reset");
     if(timerStarted) {
         if(songSelect == 0) {
             elements_button_right(canvas, "S:OFF");
@@ -92,7 +95,7 @@ static void clock_state_init(ClockState* const state) {
 }
 
 const NotificationSequence clock_alert_silent = {
-    &message_force_vibro_setting_on,
+    // &message_force_vibro_setting_on,
     &message_vibro_on,
     &message_red_255,
     &message_green_255,
@@ -105,8 +108,8 @@ const NotificationSequence clock_alert_silent = {
     NULL,
 };
 const NotificationSequence clock_alert_pr1 = {
-    &message_force_speaker_volume_setting_1f,
-    &message_force_vibro_setting_on,
+    // &message_force_speaker_volume_setting_1f,
+    // &message_force_vibro_setting_on,
     &message_vibro_on,
     &message_red_255,
     &message_green_255,
@@ -129,8 +132,8 @@ const NotificationSequence clock_alert_pr1 = {
     NULL,
 };
 const NotificationSequence clock_alert_pr2 = {
-    &message_force_speaker_volume_setting_1f,
-    &message_force_vibro_setting_on,
+    // &message_force_speaker_volume_setting_1f,
+    // &message_force_vibro_setting_on,
     &message_vibro_on,
     &message_note_fs5,
     &message_delay_100,
@@ -152,7 +155,7 @@ const NotificationSequence clock_alert_pr2 = {
     NULL,
 };
 const NotificationSequence clock_alert_pr3 = {
-    &message_force_speaker_volume_setting_1f,
+    // &message_force_speaker_volume_setting_1f,
     &message_display_backlight_off,
     &message_note_g5,
     &message_delay_100,
@@ -167,7 +170,7 @@ const NotificationSequence clock_alert_pr3 = {
     NULL,
 };
 const NotificationSequence clock_alert_mario1 = {
-    &message_force_speaker_volume_setting_1f,
+    // &message_force_speaker_volume_setting_1f,
     &message_force_vibro_setting_on,
     &message_vibro_on,
     &message_red_255,
@@ -197,7 +200,7 @@ const NotificationSequence clock_alert_mario1 = {
     NULL,
 };
 const NotificationSequence clock_alert_mario2 = {
-    &message_force_speaker_volume_setting_1f,
+    // &message_force_speaker_volume_setting_1f,
     &message_force_vibro_setting_on,
     &message_vibro_on,
     &message_display_backlight_off,
@@ -219,7 +222,7 @@ const NotificationSequence clock_alert_mario2 = {
     NULL,
 };
 const NotificationSequence clock_alert_mario3 = {
-    &message_force_speaker_volume_setting_1f,
+    // &message_force_speaker_volume_setting_1f,
     &message_display_backlight_off,
     &message_note_g5,
     &message_delay_100,
@@ -242,7 +245,7 @@ const NotificationSequence clock_alert_mario3 = {
     NULL,
 };
 const NotificationSequence clock_alert_perMin = {
-    &message_force_speaker_volume_setting_1f,
+    // &message_force_speaker_volume_setting_1f,
     &message_note_g5,
     &message_delay_100,
     &message_delay_50,
@@ -256,7 +259,7 @@ const NotificationSequence clock_alert_perMin = {
     NULL,
 };
 const NotificationSequence clock_alert_startStop = {
-    &message_force_speaker_volume_setting_1f,
+    // &message_force_speaker_volume_setting_1f,
     &message_note_d6,
     &message_delay_100,
     &message_delay_10,
@@ -375,6 +378,7 @@ int32_t clock_app(void* p) {
                         }
                         break;
                     case InputKeyLeft:
+                        timerSecs = 0;
                         break;
                     case InputKeyOk:
                         if(songSelect == 1 || songSelect == 2 || songSelect == 3) {
@@ -384,7 +388,6 @@ int32_t clock_app(void* p) {
                         }
                         if(timerStarted) {
                             timerStarted = false;
-                            timerSecs = 0;
                         } else {
                             timerStarted = true;
                         }
@@ -410,6 +413,8 @@ int32_t clock_app(void* p) {
     gui_remove_view_port(gui, view_port);
     furi_record_close(RECORD_GUI);
     view_port_free(view_port);
+    delete_mutex(&state_mutex);
+    free(plugin_state);
     furi_message_queue_free(event_queue);
     return 0;
 }
