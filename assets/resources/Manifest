@@ -1,5 +1,5 @@
 V:0
-T:1661404827
+T:1661533407
 D:apps
 D:badusb
 D:dolphin
@@ -56,7 +56,7 @@ D:dolphin/L2_Soldering_128x64
 D:dolphin/L3_Furippa3_128x64
 D:dolphin/L3_Hijack_radio_128x64
 D:dolphin/L3_Lab_research_128x54
-F:89909cc84d71d9c382f08ddcdf556af8:2361:dolphin/manifest.txt
+F:bb4255c18b3dff4a73ec2a1f579d1654:2370:dolphin/manifest.txt
 F:c1ae720a404a2c4fb8c8520279f3acc7:239:dolphin/name.txt
 F:1c4c13b4cfe609e102bd630e32a5e929:564:dolphin/L1_Agumon_128x64/frame_0.bm
 F:3042b007eeb149f7729e6e00032b4c87:572:dolphin/L1_Agumon_128x64/frame_1.bm
