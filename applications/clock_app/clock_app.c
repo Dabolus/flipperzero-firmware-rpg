@@ -33,6 +33,7 @@ typedef struct {
     uint32_t alert_time;
     bool timer_running;
     bool militaryTime; // 24 hour
+    bool w_test;
 } ClockState;
 
 const NotificationSequence clock_alert_silent = {
@@ -240,7 +241,7 @@ static void clock_render_callback(Canvas* const canvas, void* ctx) {
     snprintf(alertTime, sizeof(alertTime), "%d", alert_time);
     furi_mutex_release(state->mutex);
     canvas_set_font(canvas, FontBigNumbers);
-    if(timer_start_timestamp != 0) {
+    if(timer_start_timestamp != 0 && !state->w_test) {
         int32_t elapsed_secs = timer_running ? (curr_ts - timer_start_timestamp) :
                                                timer_stopped_seconds;
         snprintf(strings[2], 20, "%.2ld:%.2ld", elapsed_secs / 60, elapsed_secs % 60);
@@ -250,29 +251,36 @@ static void clock_render_callback(Canvas* const canvas, void* ctx) {
         if(!state->militaryTime)
             canvas_draw_str_aligned(canvas, 117, 4, AlignCenter, AlignCenter, strAMPM);
         canvas_draw_str_aligned(canvas, 117, 11, AlignCenter, AlignCenter, alertTime);
-        canvas_set_font(canvas, FontSecondary);
         canvas_draw_str_aligned(canvas, 64, 20, AlignCenter, AlignTop, strings[0]); // DRAW DATE
+        canvas_set_font(canvas, FontSecondary);
         elements_button_left(canvas, "Reset");
     } else {
+        if(state->w_test) canvas_set_font(canvas, FontBatteryPercent);
+        if(state->w_test && timer_start_timestamp != 0) {
+			int32_t elapsed_secs = timer_running ? (curr_ts - timer_start_timestamp) :
+												   timer_stopped_seconds;
+			snprintf(strings[2], 20, "%.2ld:%.2ld", elapsed_secs / 60, elapsed_secs % 60);
+			canvas_draw_str_aligned(canvas, 64, 40, AlignCenter, AlignTop, strings[2]); // DRAW TIMER
+		}
         canvas_draw_str_aligned(canvas, 64, 26, AlignCenter, AlignCenter, strings[1]); // DRAW TIME
+		canvas_set_font(canvas, FontBatteryPercent);
         if(!state->militaryTime) {
-            canvas_set_font(canvas, FontBatteryPercent);
             canvas_draw_str_aligned(canvas, 69, 15, AlignCenter, AlignCenter, strAMPM);
         }
+        if(!state->w_test) canvas_draw_str_aligned(canvas, 64, 38, AlignCenter, AlignTop, strings[0]); // DRAW DATE
         canvas_set_font(canvas, FontSecondary);
-        canvas_draw_str_aligned(canvas, 64, 38, AlignCenter, AlignTop, strings[0]); // DRAW DATE
 
-        if(!state->desktop_settings->is_dumbmode)
+        if(!state->desktop_settings->is_dumbmode && !state->w_test)
             elements_button_left(canvas, state->militaryTime ? "12h" : "24h");
     }
-    if(!state->desktop_settings->is_dumbmode) {
+    if(!state->desktop_settings->is_dumbmode && !state->w_test) {
         if(timer_running) {
             elements_button_center(canvas, "Stop");
         } else {
             elements_button_center(canvas, "Start");
         }
     }
-    if(timer_running) {
+    if(timer_running && !state->w_test) {
         if(songSelect == 0) {
             elements_button_right(canvas, "S:OFF");
         } else if(songSelect == 1) {
@@ -296,6 +304,7 @@ static void clock_state_init(ClockState* const state) {
     state->timerSecs = 0;
     state->alert_time = 80;
     state->desktop_settings = malloc(sizeof(DesktopSettings));
+    state->w_test = false;
 }
 
 // Runs every 1000ms by default
@@ -378,15 +387,9 @@ int32_t clock_app(void* p) {
                     case InputKeyRight:
                         if(plugin_state->codeSequence == 5 || plugin_state->codeSequence == 7) {
                             plugin_state->codeSequence++;
-                            if(plugin_state->songSelect == 0) {
-                                plugin_state->songSelect = 1;
-                            } else if(plugin_state->songSelect == 1) {
-                                plugin_state->songSelect = 2;
-                            } else if(plugin_state->songSelect == 2) {
-                                plugin_state->songSelect = 3;
-                            } else {
-                                plugin_state->songSelect = 0;
-                            }
+							if(plugin_state->codeSequence == 8) {
+								desktop_view_main_dumbmode_changed(plugin_state->desktop_settings);
+							}
                         } else {
                             plugin_state->codeSequence = 0;
                             if(plugin_state->songSelect == 0) {
@@ -458,19 +461,22 @@ int32_t clock_app(void* p) {
                         if(plugin_state->codeSequence == 8) {
                             plugin_state->codeSequence++;
                         } else {
-                            // Exit the plugin
-                            processing = false;
-                        }
+							// Don't Exit the plugin
+							// processing = false;
+							plugin_state->w_test = false;
+						}
                         break;
-                    }
-                    if(plugin_state->codeSequence == 8) {
-                        desktop_view_main_dumbmode_changed(plugin_state->desktop_settings);
                     }
                     if(plugin_state->codeSequence == 10) {
                         plugin_state->codeSequence = 0;
                         plugin_state->desktop_settings->is_dumbmode = true; // MAKE SURE IT'S ON SO IT GETS TURNED OFF
                         desktop_view_main_dumbmode_changed(plugin_state->desktop_settings);
-                        notification_message(notification, &clock_alert_startStop);
+                        if(plugin_state->songSelect == 1 || plugin_state->songSelect == 2 ||
+                           plugin_state->songSelect == 3) {
+                            notification_message(notification, &sequence_success);
+                        }
+						plugin_state->militaryTime = true; // 24 HR TIME FOR THIS
+						plugin_state->w_test = true; // OH HEY NOW LETS GAIN EXP & MORE FUN
                         DOLPHIN_DEED(getRandomDeed());
                     }
                 } else if(event.input.type == InputTypeLong) {
@@ -483,6 +489,9 @@ int32_t clock_app(void* p) {
                             plugin_state->timer_stopped_seconds = 0;
                             plugin_state->timerSecs = 0;
                         }
+                    } else if(event.input.key == InputKeyBack) {
+						// Exit the plugin
+						processing = false;
                     }
                 }
             } else if(event.type == EventTypeTick) {
@@ -497,7 +506,7 @@ int32_t clock_app(void* p) {
                             FuriHalRtcDateTime curr_dt;
                             furi_hal_rtc_get_datetime(&curr_dt);
                             uint32_t curr_ts = furi_hal_rtc_datetime_to_timestamp(&curr_dt);
-                            if(plugin_state->lastexp_timestamp + 10 <= curr_ts) {
+                            if(plugin_state->lastexp_timestamp + 10 <= curr_ts && plugin_state->w_test) {
                                 plugin_state->lastexp_timestamp = curr_ts;
                                 DOLPHIN_DEED(getRandomDeed());
                             }
@@ -514,7 +523,7 @@ int32_t clock_app(void* p) {
                             FuriHalRtcDateTime curr_dt;
                             furi_hal_rtc_get_datetime(&curr_dt);
                             uint32_t curr_ts = furi_hal_rtc_datetime_to_timestamp(&curr_dt);
-                            if(plugin_state->lastexp_timestamp + 10 <= curr_ts) {
+                            if(plugin_state->lastexp_timestamp + 10 <= curr_ts && plugin_state->w_test) {
                                 plugin_state->lastexp_timestamp = curr_ts;
                                 DOLPHIN_DEED(getRandomDeed());
                             }
@@ -531,7 +540,7 @@ int32_t clock_app(void* p) {
                             FuriHalRtcDateTime curr_dt;
                             furi_hal_rtc_get_datetime(&curr_dt);
                             uint32_t curr_ts = furi_hal_rtc_datetime_to_timestamp(&curr_dt);
-                            if(plugin_state->lastexp_timestamp + 10 <= curr_ts) {
+                            if(plugin_state->lastexp_timestamp + 10 <= curr_ts && plugin_state->w_test) {
                                 plugin_state->lastexp_timestamp = curr_ts;
                                 DOLPHIN_DEED(getRandomDeed());
                             }
