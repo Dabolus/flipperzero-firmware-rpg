@@ -190,8 +190,10 @@ int32_t dolphin_srv(void* p) {
                 event.stats->butthurt = dolphin->state->data.butthurt;
                 event.stats->timestamp = dolphin->state->data.timestamp;
                 event.stats->level = dolphin_get_level(dolphin->state->data.icounter);
-                event.stats->level_up_is_pending =
-                    !dolphin_state_xp_to_levelup(dolphin->state->data.icounter);
+                bool is_leveling_up = !dolphin_state_xp_to_levelup(dolphin->state->data.icounter);
+                bool is_changing_form = (event.stats->level == (STAGE2_FORM_THRESHOLD - 1)) ||
+                                        (event.stats->level == (STAGE3_FORM_THRESHOLD - 1));
+                event.stats->level_up_is_pending = is_leveling_up && is_changing_form;
             } else if(event.type == DolphinEventTypeFlush) {
                 FURI_LOG_I(TAG, "Flush stats");
                 dolphin_state_save(dolphin->state);

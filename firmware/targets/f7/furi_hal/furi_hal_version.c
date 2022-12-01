@@ -306,6 +306,25 @@ const char* furi_hal_version_get_name_ptr() {
     return *furi_hal_version.name == 0x00 ? NULL : furi_hal_version.name;
 }
 
+FuriHalVersionGender furi_hal_version_get_gender() {
+    const char* my_name = furi_hal_version_get_name_ptr();
+    if(!my_name) {
+        return FuriHalVersionGenderUnknown;
+    }
+    size_t my_name_len = strlen(my_name);
+    uint8_t i;
+    uint16_t sum = 0;
+    for(i = 0; i < my_name_len; i++) {
+        sum += my_name[i];
+    }
+    // Every once in a while a Flipper is of an unknown gender because why not?
+    if(my_name_len % 31 == 0) {
+        return FuriHalVersionGenderUnknown;
+    }
+
+    return (sum % 2) + 1;
+}
+
 const char* furi_hal_version_get_device_name_ptr() {
     return furi_hal_version.device_name + 1;
 }

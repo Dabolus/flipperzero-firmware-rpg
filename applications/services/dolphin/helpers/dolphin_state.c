@@ -11,25 +11,6 @@
 
 #define TAG "DolphinState"
 
-// Function macros helpers
-#define REQUIRED_XP(LEVEL)                                            \
-    (((LEVEL * LEVEL) + LEVEL) / 2 * LEVEL_XP_REQUIREMENT_INCREMENT - \
-     (LEVEL * LEVEL_XP_REQUIREMENT_INCREMENT))
-#define LEVEL_FOR_XP_DIVIDEND(XP)                                     \
-    (sqrt(                                                            \
-         LEVEL_XP_REQUIREMENT_INCREMENT *                             \
-         ((2 * XP) + ((double)LEVEL_XP_REQUIREMENT_INCREMENT / 4))) + \
-     ((double)LEVEL_XP_REQUIREMENT_INCREMENT / 2))
-
-#define DOLPHIN_STATE_PATH INT_PATH(DOLPHIN_STATE_FILE_NAME)
-#define DOLPHIN_STATE_HEADER_MAGIC 0xD0
-#define DOLPHIN_STATE_HEADER_VERSION 0x01
-#define LEVEL_XP_REQUIREMENT_INCREMENT 3
-#define LEVEL_MAX 255
-#define LEVEL_XP_MAX REQUIRED_XP(LEVEL_MAX)
-#define BUTTHURT_MAX 14
-#define BUTTHURT_MIN 0
-
 DolphinState* dolphin_state_alloc() {
     return malloc(sizeof(DolphinState));
 }
