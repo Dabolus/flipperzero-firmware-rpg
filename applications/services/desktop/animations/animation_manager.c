@@ -3,6 +3,7 @@
 #include <furi.h>
 #include <furi_hal.h>
 #include <portmacro.h>
+#include <dolphin/helpers/dolphin_state.h>
 #include <dolphin/dolphin.h>
 #include <power/power_service/power.h>
 #include <storage/storage.h>
