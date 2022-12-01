@@ -94,7 +94,11 @@ uint32_t dolphin_state_xp_above_last_levelup(uint32_t icounter) {
 
     uint8_t level = dolphin_get_level(icounter);
     uint32_t level_threshold = REQUIRED_XP(level);
-    return icounter - level_threshold;
+    uint32_t level_out = icounter - level_threshold;
+    if(level_out < 0) {
+        level_out = 0;
+    }
+    return level_out;
 }
 
 uint32_t dolphin_state_xp_to_levelup(uint32_t icounter) {
