@@ -24,6 +24,8 @@
 #define SD_OK_ANIMATION_NAME "L0_SdOk_128x51"
 #define URL_ANIMATION_NAME "L0_Url_128x51"
 #define NEW_MAIL_ANIMATION_NAME "L0_NewMail_128x51"
+#define L1_EVOLUTION_ANIMATION_NAME "L1_Evolution_128x64"
+#define L2_EVOLUTION_ANIMATION_NAME "L2_Evolution_128x64"
 
 typedef enum {
     AnimationManagerStateIdle,
@@ -236,7 +238,13 @@ static bool animation_manager_check_blocking(AnimationManager* animation_manager
     DolphinStats stats = dolphin_stats(dolphin);
     furi_record_close(RECORD_DOLPHIN);
     if(!blocking_animation && stats.level_up_is_pending) {
-        blocking_animation = animation_storage_find_animation(NEW_MAIL_ANIMATION_NAME);
+        if(stats.level < STAGE2_FORM_THRESHOLD) {
+            blocking_animation = animation_storage_find_animation(L1_EVOLUTION_ANIMATION_NAME);
+        } else if(stats.level >= STAGE2_FORM_THRESHOLD) {
+            blocking_animation = animation_storage_find_animation(L2_EVOLUTION_ANIMATION_NAME);
+        } else {
+            furi_assert(0);
+        }
         furi_assert(blocking_animation);
         if(blocking_animation) {
             animation_manager->levelup_pending = true;
