@@ -239,12 +239,10 @@ static bool animation_manager_check_blocking(AnimationManager* animation_manager
     DolphinStats stats = dolphin_stats(dolphin);
     furi_record_close(RECORD_DOLPHIN);
     if(!blocking_animation && stats.level_up_is_pending) {
-        if(stats.level < STAGE2_FORM_THRESHOLD) {
-            blocking_animation = animation_storage_find_animation(L1_EVOLUTION_ANIMATION_NAME);
-        } else if(stats.level >= STAGE2_FORM_THRESHOLD) {
+        if(stats.level >= STAGE2_FORM_THRESHOLD) {
             blocking_animation = animation_storage_find_animation(L2_EVOLUTION_ANIMATION_NAME);
         } else {
-            furi_assert(0);
+            blocking_animation = animation_storage_find_animation(L1_EVOLUTION_ANIMATION_NAME);
         }
         furi_assert(blocking_animation);
         if(blocking_animation) {
